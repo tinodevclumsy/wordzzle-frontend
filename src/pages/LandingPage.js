@@ -22,7 +22,7 @@ const InnerContainer = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 5rem;
+  font-size: 3rem;
   margin: 0 0 25px;  
 `;
 
