@@ -1,43 +1,40 @@
 import React from 'react';
-import Button from '../components/common/Button';
+// import Button from '../components/common/Button';
 import styled from 'styled-components';
-
-const Container = styled.div`
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #7c89f1;
-`;
-
-const InnerContainer = styled.div`
-  width: 80%;
-  min-height: 70vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 30px;
-  background-color: #ebebeb;
-  padding: 75px;
-`;
+import Layout from '../layout';
+import { Link } from 'react-router-dom';
+import { Button } from 'antd';
 
 const Title = styled.h1`
-  font-size: 3rem;
-  margin: 0 0 25px;  
+  font-size: 7rem;
+  margin: 0 0 25px;
+  /* color: #fff; */
+  background-image: linear-gradient(43deg, #DA3096 0%, #E0B958 46%, #2ecc71 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* text-shadow:
+    0 0 2px #fff,
+    0 0 2px #000,
+    0 0 15px #fff,
+    0 0 23px #2ecc71,
+    0 0 82px #2ecc71,
+    0 0 25px #2ecc71,
+    0 0 80px #2ecc71,
+    0 0 120px #2ecc71; */
 `;
 
 const LandingPage = () => {
   return (
-    <Container>
-      <InnerContainer>
-        <div>
-          <Title>WORDZZLE</Title>
-          <Button style={{ width: '100%', marginBottom: '5px' }}>List</Button>
-          <Button style={{ width: '100%',  marginBottom: '5px'}}>Quiz 1</Button>
-          <Button style={{ width: '100%' }}>Quiz 2</Button>
-        </div>
-      </InnerContainer>
-    </Container>
+    <Layout>
+      <div>
+        <Title>WORDZZLE</Title>
+        <Link to="/list">
+          <Button style={{ width: '100%', marginBottom: '5px' }} size='large'>List</Button>
+        </Link>
+        <Button style={{ width: '100%', marginBottom: '5px' }} size='large'>Quiz 1</Button>
+        <Button style={{ width: '100%' }} size='large'>Quiz 2</Button>
+      </div>
+    </Layout>
   );
 };
 
