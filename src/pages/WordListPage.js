@@ -1,6 +1,6 @@
-//  TODO: optimize (불변성 관련) & rendering 
-import React, { useEffect, useState } from 'react';
-import { getWordList, updateWord } from '../lib/api/word';
+//  TODO: optimize (불변성 관련) & rendering
+import React, { useEffect, useState, useCallback } from 'react';
+import { getWordList, updateWord, deleteWord } from '../lib/api/word';
 import { Table, Modal, Input, Space, Switch, Button } from 'antd';
 import styled from 'styled-components';
 import {
@@ -19,50 +19,82 @@ const Container = styled.div`
 const WordListPage = () => {
   const [list, setList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   const [item, setItem] = useState({});
 
-  const onEditClick = (editTarget) => {
-    setItem(editTarget);
-    setIsModalOpen(true);
-  };
+  const onEditClick = useCallback(
+    (editTarget) => {
+      setItem(editTarget);
+      setIsModalOpen(true);
+    },
+    [isModalOpen],
+  );
+  const onRemoveClick = useCallback(
+    (removeTarget) => {
+      setItem(removeTarget);
+      setDeleteModal(true);
+    },
+    [deleteModal],
+  );
 
-  const handleModal = () => {
+  const handleModal = useCallback(() => {
     setIsModalOpen(!isModalOpen);
-  };
+  }, [isModalOpen]);
 
-  const onStatusChange = (stat) => {
-    const currentState = { ...item };
-    const updatedObject = { ...currentState, status: stat };
-    setItem(updatedObject);
-  };
+  const handleRemoveModal = useCallback(() => {
+    setDeleteModal(!deleteModal);
+  }, [deleteModal]);
 
-  const onMeaningAdd = () => {
-    const obj = {...item}
-    obj.meaning = [...item.meaning]
-    obj.meaning.push({value: ''})
+  const onStatusChange = useCallback(
+    (stat) => {
+      const currentState = { ...item };
+      const updatedObject = { ...currentState, status: stat };
+      setItem(updatedObject);
+    },
+    [item],
+  );
 
-    setItem(obj)
-  }
+  const onMeaningAdd = useCallback(() => {
+    const obj = { ...item };
+    obj.meaning = [...item.meaning];
+    obj.meaning.push({ value: '' });
 
-  const onMeaningRemove = (index) => {
-    const currentState = { ...item };
-    const updatedObject = {
-      ...currentState,
-      meaning: currentState.meaning.filter((_, i) => i !== index - 1),
-    };
-    setItem(updatedObject);
-  };
+    setItem(obj);
+  }, [item]);
 
-  const onMeaningChange = (e, index) => {
-    const obj = {...item}
-    obj.meaning = [...item.meaning]
-    obj.meaning[index - 1].value = e.target.value
-    
-    console.log(obj)
-    setItem(obj)
-  }
+  const onMeaningRemove = useCallback(
+    (index) => {
+      setItem((prevItem) => {
+        const obj = { ...prevItem };
+        const updated = {
+          ...obj,
+          meaning: obj.meaning.filter((_, i) => i !== index - 1),
+        };
+        return updated;
+      });
+    },
+    [item],
+  );
 
-  const handleEditOk = () => {
+  const onMeaningChange = useCallback((e, index) => {
+    setItem((prevItem) => {
+      const obj = JSON.parse(JSON.stringify(prevItem));
+      obj.meaning[index - 1].value = e.target.value;
+      return obj;
+    });
+  }, []);
+
+  const handleRemoveOk = useCallback(() => {
+    console.log(item);
+    deleteWord({ id: item._id }).then((response) => {
+      console.log(response)
+      if (response.status === 204) {
+        setDeleteModal(false);
+      }
+    });
+  }, [item]);
+
+  const handleEditOk = useCallback(() => {
     updateWord({
       id: item._id,
       body: {
@@ -79,7 +111,7 @@ const WordListPage = () => {
         setIsModalOpen(false);
       }
     });
-  };
+  }, [item]);
 
   const COLUMNS = [
     { title: 'Title', dataIndex: 'title', key: 'word-title' },
@@ -114,7 +146,7 @@ const WordListPage = () => {
       render: (_, record) => (
         <Space size="middle">
           <a onClick={() => onEditClick(record)}>Edit</a>
-          <a>Delete</a>
+          <a onClick={() => onRemoveClick(record)}>Delete</a>
         </Space>
       ),
     },
@@ -136,6 +168,18 @@ const WordListPage = () => {
       />
 
       <Modal
+        title="Delete a word"
+        open={deleteModal}
+        onOk={handleRemoveOk}
+        onCancel={handleRemoveModal}
+        centered
+      >
+        <p>
+          Delete <b>{item.title}</b>?
+        </p>
+      </Modal>
+
+      <Modal
         title="Edit a word"
         open={isModalOpen}
         onOk={handleEditOk}
@@ -154,7 +198,7 @@ const WordListPage = () => {
                   <Input
                     addonBefore={`meaning #${++index}`}
                     defaultValue={ele.value}
-                    onChange={e => onMeaningChange(e, index)}
+                    onChange={(e) => onMeaningChange(e, index)}
                   />
                   <Button danger onClick={() => onMeaningRemove(index)}>
                     <MinusCircleOutlined />

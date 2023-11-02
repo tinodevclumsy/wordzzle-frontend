@@ -38,3 +38,15 @@ export const addWord = (req) => {
     });
 };
 
+export const deleteWord = (req) => {
+  return client
+    .delete(`/word/remove/${req.id}`, req)
+    .then((response) => {
+      return response;
+    })
+    .catch((e) => {
+      console.error(e);
+      throw e;
+    });
+};
+
