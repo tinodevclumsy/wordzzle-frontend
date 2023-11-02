@@ -26,3 +26,15 @@ export const updateWord = (req) => {
     });
 };
 
+export const addWord = (req) => {
+  return client
+    .post(`/word/add`, req)
+    .then((response) => {
+      return response;
+    })
+    .catch((e) => {
+      console.error(e);
+      throw e;
+    });
+};
+

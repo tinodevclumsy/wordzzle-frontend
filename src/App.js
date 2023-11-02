@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import WordListPage from './pages/WordListPage';
 import { ConfigProvider, theme } from 'antd';
+import AddWord from './components/AddWord';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         // algorithm: [theme.darkAlgorithm, theme.compactAlgorithm],
       }}
     >
+      <AddWord />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/list" element={<WordListPage />} />
