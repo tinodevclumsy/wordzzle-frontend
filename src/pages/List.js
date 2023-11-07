@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Table, Space } from 'antd';
 import EditModal from '../components/EditWordModal';
-import { getWordList, updateWord } from '../lib/api/word';
+import DeleteModal from '../components/DeleteWordModal';
+import { getWordList, updateWord, deleteWord } from '../lib/api/word';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
 const Container = styled.div`
@@ -46,7 +47,7 @@ const List = () => {
       render: (_, record) => (
         <Space size="middle">
           <span onClick={() => onActionClick('edit', record)}>Edit</span>
-          {/* <span onClick={() => onRemoveClick(record)}>Delete</span> */}
+          <span onClick={() => onActionClick('remove', record)}>Delete</span>
         </Space>
       ),
     },
@@ -55,16 +56,35 @@ const List = () => {
   const [list, setList] = useState([]);
   const [item, setItem] = useState({});
   const [openEdit, setEditModal] = useState(false);
+  const [openDelete, setDeleteModal] = useState(false);
 
   const onActionClick = (type, rec) => {
     setItem(rec);
     if (type === 'edit') {
       setEditModal((prevEditModal) => !prevEditModal);
+    } else if (type === 'remove') {
+      setDeleteModal((prevEditModal) => !prevEditModal);
     }
   };
 
   const onEditCancel = () => {
     setEditModal((prevEditModal) => !prevEditModal);
+  };
+
+  const onDeleteCancel = () => {
+    setDeleteModal((prevDeleteModal) => !prevDeleteModal);
+  };
+
+  const onRemoveOk = () => {
+    deleteWord({ id: item._id })
+      .then((response) => {
+        if (response.status === 204) {
+          setDeleteModal(false);
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   };
 
   const onEditOk = (payload) => {
@@ -119,6 +139,12 @@ const List = () => {
         word={item}
         onCancel={onEditCancel}
         onOk={onEditOk}
+      />
+      <DeleteModal
+        open={openDelete}
+        word={item}
+        onCancel={onDeleteCancel}
+        onOk={onRemoveOk}
       />
     </Container>
   );
