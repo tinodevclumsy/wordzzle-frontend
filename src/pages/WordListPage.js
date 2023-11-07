@@ -24,6 +24,9 @@ const WordListPage = () => {
 
   const onEditClick = useCallback(
     (editTarget) => {
+    console.log('b')
+
+      console.log(editTarget)
       setItem(editTarget);
       setIsModalOpen(true);
     },
@@ -45,16 +48,17 @@ const WordListPage = () => {
     setDeleteModal(!deleteModal);
   }, [deleteModal]);
 
-  const onStatusChange = useCallback(
-    (stat) => {
-      const currentState = { ...item };
-      const updatedObject = { ...currentState, status: stat };
-      setItem(updatedObject);
-    },
-    [item],
-  );
+  const onStatusChange = useCallback((stat) => {
+    console.log('a')
+
+    setItem((prevItem) => ({
+      ...prevItem,
+      status: stat,
+    }));
+  }, []);
 
   const onMeaningAdd = useCallback(() => {
+    console.log('a')
     const obj = { ...item };
     obj.meaning = [...item.meaning];
     obj.meaning.push({ value: '' });
@@ -64,6 +68,8 @@ const WordListPage = () => {
 
   const onMeaningRemove = useCallback(
     (index) => {
+    console.log('a')
+
       setItem((prevItem) => {
         const obj = { ...prevItem };
         const updated = {
@@ -77,6 +83,8 @@ const WordListPage = () => {
   );
 
   const onMeaningChange = useCallback((e, index) => {
+    console.log('a')
+
     setItem((prevItem) => {
       const obj = JSON.parse(JSON.stringify(prevItem));
       obj.meaning[index - 1].value = e.target.value;
@@ -85,7 +93,6 @@ const WordListPage = () => {
   }, []);
 
   const handleRemoveOk = useCallback(() => {
-    console.log(item);
     deleteWord({ id: item._id }).then((response) => {
       console.log(response)
       if (response.status === 204) {
@@ -187,7 +194,8 @@ const WordListPage = () => {
         centered
       >
         <Space direction="vertical" style={{ width: '100%' }}>
-          <Input addonBefore="Title" defaultValue={item.title} />
+          <p>{item.title}</p>
+          {/* <Input addonBefore="Title" defaultValue={item.title} /> */}
           {item.meaning &&
             item.meaning.map((ele, index) => {
               return (

@@ -2,9 +2,10 @@ import React from 'react';
 // import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
-import WordListPage from './pages/WordListPage';
+// import WordListPage from './pages/WordListPage';
 import { ConfigProvider, theme } from 'antd';
 import AddWord from './components/AddWord';
+import List from './pages/List'
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
       <AddWord />
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/list" element={<WordListPage />} />
+        <Route path="/list" element={<List />} />
       </Routes>
     </ConfigProvider>
   );
