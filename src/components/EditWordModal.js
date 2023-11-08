@@ -11,7 +11,7 @@ const EditModal = ({ open, word, onCancel, onOk }) => {
   }, [word]);
 
   const handleEditOk = () => {
-    onOk(item)
+    onOk(item);
   };
 
   const handleCancel = () => {
@@ -51,6 +51,13 @@ const EditModal = ({ open, word, onCancel, onOk }) => {
     }));
   };
 
+  const onStatusChange = (e) => {
+    setItem((prevItem) => ({
+      ...prevItem,
+      status: e,
+    }));
+  };
+
   return (
     <div>
       <Modal
@@ -86,7 +93,7 @@ const EditModal = ({ open, word, onCancel, onOk }) => {
             })}
           <Button onClick={onMeaningAdd}>Add meaning</Button>
           <label>Memorized</label>
-          <Switch checked={item.status} />
+          <Switch checked={item.status} onChange={onStatusChange} />
         </Space>
       </Modal>
     </div>

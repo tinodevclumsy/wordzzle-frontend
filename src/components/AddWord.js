@@ -46,7 +46,7 @@ const AddWord = () => {
           title: '',
           meaning: [],
         });
-        setVisible(false);
+        // setVisible(false);
       }
     });
   };
@@ -66,7 +66,7 @@ const AddWord = () => {
         centered
       >
         <Space direction="vertical" style={{ width: '100%' }}>
-          <Input addonBefore="Title" onChange={(e) => onTitleChange(e)} />
+          <Input addonBefore="Title" value={word.title} onChange={(e) => onTitleChange(e)} />
           {word.meaning.map((ele, index) => {
             return (
               <Space.Compact
@@ -75,7 +75,7 @@ const AddWord = () => {
               >
                 <Input
                   addonBefore={`meaning #${++index}`}
-                  defaultValue={ele.value}
+                  value={ele.value}
                   onChange={(e) => onMeaningChange(e, index)}
                 />
                 <Button danger onClick={() => onMeaningRemove(index)}>

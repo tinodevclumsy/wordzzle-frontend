@@ -1,8 +1,10 @@
 import client from './client';
 
-export const getWordList = () => {
+export const getWordList = (page = 1) => {
   return client
-    .get('/word')
+    .get('/word', {
+      params: { page },
+    })
     .then((response) => {
       console.log(response);
       return response;
@@ -49,4 +51,3 @@ export const deleteWord = (req) => {
       throw e;
     });
 };
-

@@ -11,6 +11,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 75px 0;
 `;
 
 const List = () => {
@@ -57,6 +58,7 @@ const List = () => {
   const [item, setItem] = useState({});
   const [openEdit, setEditModal] = useState(false);
   const [openDelete, setDeleteModal] = useState(false);
+  const [totalWords, setTotalWords] = useState(0);
 
   const onActionClick = (type, rec) => {
     setItem(rec);
@@ -80,6 +82,9 @@ const List = () => {
       .then((response) => {
         if (response.status === 204) {
           setDeleteModal(false);
+          setList((prevList) =>
+            prevList.filter((word) => word._id !== item._id),
+          );
         }
       })
       .catch((e) => {
@@ -116,24 +121,39 @@ const List = () => {
       });
   };
 
+  const onPageChange = (e) => {
+    getList(e);
+  };
+
   useEffect(() => {
-    getWordList()
+    getList();
+  }, []);
+
+  const getList = (page = 1) => {
+    getWordList(page)
       .then((response) => {
-        setList(response.data);
+        setList(response.data.words);
+        setTotalWords(response.data.totalWords);
       })
       .catch((e) => {
         console.error(e);
       });
-  }, []);
+  };
 
   return (
     <Container>
-      <Table
-        style={{ width: '80%' }}
-        columns={COLUMNS}
-        dataSource={list}
-        rowKey={(record) => record._id}
-      />
+      <div style={{ width: '80%' }}>
+        <p style={{ color: '#999' }}>Total: {totalWords}</p>
+        <Table
+          columns={COLUMNS}
+          dataSource={list}
+          rowKey={(record) => record._id}
+          pagination={{
+            total: totalWords,
+            onChange: onPageChange,
+          }}
+        />
+      </div>
       <EditModal
         open={openEdit}
         word={item}
