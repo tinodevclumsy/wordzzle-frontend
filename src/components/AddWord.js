@@ -66,7 +66,11 @@ const AddWord = () => {
         centered
       >
         <Space direction="vertical" style={{ width: '100%' }}>
-          <Input addonBefore="Title" value={word.title} onChange={(e) => onTitleChange(e)} />
+          <Input
+            addonBefore="Title"
+            value={word.title}
+            onChange={(e) => onTitleChange(e)}
+          />
           {word.meaning.map((ele, index) => {
             return (
               <Space.Compact

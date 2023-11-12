@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Table, Space } from 'antd';
+import { Table, Space, Input } from 'antd';
 import EditModal from '../components/EditWordModal';
 import DeleteModal from '../components/DeleteWordModal';
 import { getWordList, updateWord, deleteWord } from '../lib/api/word';
@@ -12,6 +12,12 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   padding: 75px 0;
+`;
+
+const TableHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const List = () => {
@@ -56,9 +62,11 @@ const List = () => {
 
   const [list, setList] = useState([]);
   const [item, setItem] = useState({});
+  const [keyword, setKeyword] = useState('');
   const [openEdit, setEditModal] = useState(false);
   const [openDelete, setDeleteModal] = useState(false);
   const [totalWords, setTotalWords] = useState(0);
+  const { Search } = Input;
 
   const onActionClick = (type, rec) => {
     setItem(rec);
@@ -122,15 +130,28 @@ const List = () => {
   };
 
   const onPageChange = (e) => {
-    getList(e);
+    getList({
+      page: e,
+      keyword,
+    });
   };
 
   useEffect(() => {
     getList();
   }, []);
 
-  const getList = (page = 1) => {
-    getWordList(page)
+  const onSeachChange = (e) => {
+    setKeyword(e.target.value);
+  };
+
+  const onSearch = () => {
+    getList({
+      keyword,
+    });
+  };
+
+  const getList = (payload) => {
+    getWordList(payload)
       .then((response) => {
         setList(response.data.words);
         setTotalWords(response.data.totalWords);
@@ -143,7 +164,13 @@ const List = () => {
   return (
     <Container>
       <div style={{ width: '80%' }}>
-        <p style={{ color: '#999' }}>Total: {totalWords}</p>
+        <TableHeader>
+          <p style={{ color: '#999' }}>Total: {totalWords}</p>
+
+          <div>
+            <Search onChange={(e) => onSeachChange(e)} onSearch={onSearch} />
+          </div>
+        </TableHeader>
         <Table
           columns={COLUMNS}
           dataSource={list}

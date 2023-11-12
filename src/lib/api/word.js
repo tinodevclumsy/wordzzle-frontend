@@ -1,9 +1,9 @@
 import client from './client';
 
-export const getWordList = (page = 1) => {
+export const getWordList = (payload) => {
   return client
     .get('/word', {
-      params: { page },
+      params: payload,
     })
     .then((response) => {
       console.log(response);
