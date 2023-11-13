@@ -6,6 +6,7 @@ import LandingPage from './pages/LandingPage';
 import { ConfigProvider, theme } from 'antd';
 import AddWord from './components/AddWord';
 import List from './pages/List'
+import Quiz from './pages/Quiz'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/list" element={<List />} />
+        <Route path="/quiz" element={<Quiz />} />
       </Routes>
     </ConfigProvider>
   );

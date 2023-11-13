@@ -1,5 +1,19 @@
 import client from './client';
 
+export const getQuizList = () => {
+  return client
+    .get('/word/quiz')
+    .then((response) => {
+      console.log(response);
+      return response;
+    })
+    .catch((e) => {
+      console.error(e);
+      throw e;
+    });
+};
+
+
 export const getWordList = (payload) => {
   return client
     .get('/word', {
