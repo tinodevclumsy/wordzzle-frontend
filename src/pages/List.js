@@ -5,14 +5,16 @@ import EditModal from '../components/EditWordModal';
 import DeleteModal from '../components/DeleteWordModal';
 import { getWordList, updateWord, deleteWord } from '../lib/api/word';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import Layout from '../layout';
 
-const Container = styled.div`
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 75px 0;
-`;
+// const Container = styled.div`
+//   min-height: 100vh;
+//   width: 100%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   padding: 75px 0;
+// `;
 
 const TableHeader = styled.div`
   display: flex;
@@ -162,38 +164,40 @@ const List = () => {
   };
 
   return (
-    <Container>
-      <div style={{ width: '80%' }}>
-        <TableHeader>
-          <p style={{ color: '#999' }}>Total: {totalWords}</p>
+    <Layout>
+      {/* <Container> */}
+        <div style={{ width: '100%' }}>
+          <TableHeader>
+            <p style={{ color: '#999' }}>Total: {totalWords}</p>
 
-          <div>
-            <Search onChange={(e) => onSeachChange(e)} onSearch={onSearch} />
-          </div>
-        </TableHeader>
-        <Table
-          columns={COLUMNS}
-          dataSource={list}
-          rowKey={(record) => record._id}
-          pagination={{
-            total: totalWords,
-            onChange: onPageChange,
-          }}
+            <div>
+              <Search onChange={(e) => onSeachChange(e)} onSearch={onSearch} />
+            </div>
+          </TableHeader>
+          <Table
+            columns={COLUMNS}
+            dataSource={list}
+            rowKey={(record) => record._id}
+            pagination={{
+              total: totalWords,
+              onChange: onPageChange,
+            }}
+          />
+        </div>
+        <EditModal
+          open={openEdit}
+          word={item}
+          onCancel={onEditCancel}
+          onOk={onEditOk}
         />
-      </div>
-      <EditModal
-        open={openEdit}
-        word={item}
-        onCancel={onEditCancel}
-        onOk={onEditOk}
-      />
-      <DeleteModal
-        open={openDelete}
-        word={item}
-        onCancel={onDeleteCancel}
-        onOk={onRemoveOk}
-      />
-    </Container>
+        <DeleteModal
+          open={openDelete}
+          word={item}
+          onCancel={onDeleteCancel}
+          onOk={onRemoveOk}
+        />
+      {/* </Container> */}
+    </Layout>
   );
 };
 

@@ -1,7 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import Header from '../components/common/Header';
 
 const Container = styled.div`
+  width: 100%;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -10,29 +13,23 @@ const Container = styled.div`
 `;
 
 const InnerContainer = styled.div`
-  width: 80%;
-  min-height: 70vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 30px;
-  /* background-color: #ebebeb; */
-  padding: 75px;
-  /* box-shadow: 0 0 .2rem #fff,
-              0 0 .2rem #fff,
-              0 0 2rem #d3b8e1,
-              0 0 0.8rem #2ecc71,
-              0 0 2.8rem #2ecc71,
-              inset 0 0 1.3rem #2ecc71; */
+  position: relative;
+  width: 100%;
+  max-width: 1280px;
+  padding: 100px 15px;
 `;
 
-// eslint-disable-next-line react/prop-types
 const Layout = ({ children }) => {
   return (
     <Container>
+      <Header />
       <InnerContainer>{children}</InnerContainer>
     </Container>
   );
+};
+
+Layout.propTypes = {
+  children: PropTypes.node,
 };
 
 export default Layout;

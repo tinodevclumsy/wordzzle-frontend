@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { Button } from 'antd';
 
 const Title = styled.h1`
-  font-size: 7rem;
+  font-size: 8vw;
   margin: 0 0 25px;
   background-image: linear-gradient(
     43deg,
@@ -21,15 +21,22 @@ const Title = styled.h1`
 const LandingPage = () => {
   return (
     <Layout>
-      <div>
+      <div style={{ textAlign: 'center' }}>
         <Title>WORDZZLE</Title>
         <Link to="/list">
-          <Button style={{ width: '100%', marginBottom: '5px' }} size="large">
+          <Button
+            style={{ width: '50%', marginBottom: '5px', height: '45px' }}
+            size="large"
+          >
             List
           </Button>
         </Link>
+        <br />
         <Link to="/quiz">
-          <Button style={{ width: '100%', marginBottom: '5px' }} size="large">
+          <Button
+            style={{ width: '50%', marginBottom: '5px', height: '45px' }}
+            size="large"
+          >
             Quiz
           </Button>
         </Link>
