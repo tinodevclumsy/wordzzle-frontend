@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react';
+import AuthForm from '../../components/auth/AuthForm';
 import { useNavigate } from 'react-router-dom';
-import Auth from '../layout/auth';
-import AuthForm from '../components/AuthForm';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { changeField, initializeForm, login } from '../modules/auth';
-import { check } from '../modules/user';
+import { changeField, initializeForm, register } from '../../modules/auth';
+import { check } from '../../modules/user';
 
-const Login = () => {
+const RegisterForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
-    form: auth.login,
+    form: auth.register,
     auth: auth.auth,
     authError: auth.authError,
     user: user.user,
@@ -22,7 +21,7 @@ const Login = () => {
     const { value, name } = e.target;
     dispatch(
       changeField({
-        form: 'login',
+        form: 'register',
         key: name,
         value,
       }),
@@ -30,12 +29,16 @@ const Login = () => {
   };
 
   const onSubmit = () => {
-    const { username, password } = form;
-    dispatch(login({ username, password }));
+    const { username, password, passwordConfirm } = form;
+
+    if (password !== passwordConfirm) {
+      return;
+    }
+    dispatch(register({ username, password }));
   };
 
   useEffect(() => {
-    dispatch(initializeForm('login'));
+    dispatch(initializeForm('register'));
   }, [dispatch]);
 
   useEffect(() => {
@@ -59,15 +62,13 @@ const Login = () => {
   }, [navigate, user]);
 
   return (
-    <Auth>
-      <AuthForm
-        type="login"
-        form={form}
-        onChange={onChange}
-        onSubmit={onSubmit}
-      />
-    </Auth>
+    <AuthForm
+      type="register"
+      form={form}
+      onChange={onChange}
+      onSubmit={onSubmit}
+    />
   );
 };
 
-export default Login;
+export default RegisterForm;

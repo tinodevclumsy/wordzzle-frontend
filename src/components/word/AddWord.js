@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FloatButton, Modal, Input, Space, Button } from 'antd';
 import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { addWord } from '../lib/api/word';
+import { addWord } from '../../lib/api/word';
 
 const AddWord = () => {
   const [visible, setVisible] = useState(false);

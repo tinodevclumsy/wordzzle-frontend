@@ -1,11 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { UserOutlined } from '@ant-design/icons';
-import { Dropdown } from 'antd';
-import { logout } from '../../modules/user';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import ProfileDropdown from '../../containers/auth/ProfileDropdown'
 
 const HeaderContainer = styled.header`
   position: fixed;
@@ -37,31 +33,8 @@ const NavItem = styled.div`
   margin: 0 15px;
 `;
 
-const IconContainer = styled.div`
-  border: 1px solid;
-  width: 25px;
-  height: 25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 100%;
-`;
-
 const Header = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const items = [
-    {
-      label: <span onClick={() => onLogout()}>Logout</span>,
-      key: '1',
-    },
-  ];
-
-  const onLogout = () => {
-    dispatch(logout());
-    navigate('/login');
-  };
   return (
     <HeaderContainer>
       <HeaderInner>
@@ -81,11 +54,7 @@ const Header = () => {
             </Link>
           </NavItem>
           <NavItem>
-            <Dropdown menu={{ items }}>
-              <IconContainer>
-                <UserOutlined style={{ fontSize: '18px' }} />
-              </IconContainer>
-            </Dropdown>
+            <ProfileDropdown />
           </NavItem>
         </Nav>
       </HeaderInner>

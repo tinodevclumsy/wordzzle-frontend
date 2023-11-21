@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Table, Space, Input } from 'antd';
-import EditModal from '../components/EditWordModal';
-import DeleteModal from '../components/DeleteWordModal';
-import { getWordList, updateWord, deleteWord } from '../lib/api/word';
+import EditModal from '../../components/word/EditWordModal';
+import DeleteModal from '../../components/word/DeleteWordModal';
+import { getWordList, updateWord, deleteWord } from '../../lib/api/word';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
-import Layout from '../layout';
+import Layout from '../../layout';
 
 // const Container = styled.div`
 //   min-height: 100vh;

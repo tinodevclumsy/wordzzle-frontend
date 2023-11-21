@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState, useRef } from 'react';
-import { getQuizList } from '../lib/api/word';
+import { getQuizList } from '../../lib/api/word';
 import { Input, Button } from 'antd';
 import styled from 'styled-components';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
-import SubmitModal from '../components/QuizSubmitModal';
-import Layout from '../layout';
+import SubmitModal from '../../components/word/QuizSubmitModal';
+import Layout from '../../layout';
 
 const Badge = styled.div`
   width: 45px;
@@ -16,7 +16,7 @@ const Badge = styled.div`
   align-items: center;
   margin: auto;
   color: #fff;
-  background-color: #2ecc71;
+  background-color: #2341cc;
 `;
 
 const Answer = styled.div`
@@ -117,7 +117,7 @@ const Quiz = () => {
             ) : (
               <div></div>
             )}
-            <h2 style={{ color: '#fff' }}>
+            <h2 style={{ color: '#2341cc' }}>
               {list[number].meaning.map((item, mIndex) => {
                 return mIndex === list[number].meaning.length - 1
                   ? item.value

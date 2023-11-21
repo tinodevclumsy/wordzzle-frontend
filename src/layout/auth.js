@@ -26,14 +26,6 @@ const Title = styled.h1`
   font-size: 4vw;
   margin: 0 0 25px;
   color: #2341cc;
-  /* background-image: linear-gradient(
-    43deg,
-    #da3096 0%,
-    #e0b958 46%,
-    #2ecc71 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent; */
 `;
 
 const AuthLayout = ({ children }) => {

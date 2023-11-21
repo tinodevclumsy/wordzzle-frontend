@@ -2,6 +2,7 @@
 import React from 'react';
 import { Input, Button, Space, Form } from 'antd';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const AuthForm = ({ type, form, onChange, onSubmit }) => {
   return (
@@ -48,6 +49,16 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
         >
           Submit
         </Button>
+
+        {type === 'register' ? (
+          <Link to="/login" style={{ color: '#999' }}>
+            Already have an account? Sign In
+          </Link>
+        ) : (
+          <Link to="/register" style={{ color: '#999' }}>
+            Don&apos;t have an account? Sign Up
+          </Link>
+        )}
       </Space>
     </Form>
   );
