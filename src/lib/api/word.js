@@ -4,7 +4,6 @@ export const getQuizList = () => {
   return client
     .get('/word/quiz')
     .then((response) => {
-      console.log(response);
       return response;
     })
     .catch((e) => {
@@ -20,7 +19,6 @@ export const getWordList = (payload) => {
       params: payload,
     })
     .then((response) => {
-      console.log(response);
       return response;
     })
     .catch((e) => {
@@ -33,7 +31,6 @@ export const updateWord = (req) => {
   return client
     .post(`/word/update/${req.id}`, req.body)
     .then((response) => {
-      console.log(response);
       return response;
     })
     .catch((e) => {

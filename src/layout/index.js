@@ -6,10 +6,11 @@ import Header from '../components/common/Header';
 const Container = styled.div`
   width: 100%;
   min-height: 100vh;
+  padding: 0 15px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #000;
+  background-color: #786bf9;
 `;
 
 const InnerContainer = styled.div`
@@ -17,6 +18,9 @@ const InnerContainer = styled.div`
   width: 100%;
   max-width: 1280px;
   padding: 100px 15px;
+  border-radius: 30px;
+  background: #fff;
+  overflow: hidden;
 `;
 
 const Layout = ({ children }) => {

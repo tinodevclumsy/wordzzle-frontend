@@ -6,11 +6,38 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 // import {  configureStore } from 'redux';
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import rootReducer from './modules';
+import createSagaMiddleware from 'redux-saga';
+import rootReducer, { rootSaga } from './modules';
+import { tempSetUser } from './modules/user';
 
-const store = configureStore({ reducer: rootReducer, devTools: composeWithDevTools() })
+const sagaMiddleware = createSagaMiddleware();
+
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      thunk: false,
+      immutableCheck: false,
+      serializableCheck: false,
+    }).concat(sagaMiddleware),
+  devTools: composeWithDevTools(),
+});
+
+function loadUser() {
+  try {
+    const user = localStorage.getItem('user');
+    if (!user) return;
+
+    store.dispatch(tempSetUser(JSON.parse(user)));
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+sagaMiddleware.run(rootSaga);
+loadUser();
 // const store = configureStore(rootReducer, composeWithDevTools());
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

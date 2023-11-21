@@ -1,32 +1,40 @@
-import React from 'react';
-// import './App.css';
+import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
-// import WordListPage from './pages/WordListPage';
-import { ConfigProvider, theme } from 'antd';
+import { ConfigProvider } from 'antd';
 import AddWord from './components/AddWord';
-import List from './pages/List'
-import Quiz from './pages/Quiz'
+import List from './pages/List';
+import Quiz from './pages/Quiz';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 function App() {
+  const navigate = useNavigate();
+  const user = useSelector(({ user }) => user.user);
+
+  useEffect(() => {
+    if (!user && window.location.pathname !== '/register') {
+      navigate('/login');
+    }
+  }, [user, navigate]);
+
   return (
     <ConfigProvider
       theme={{
-        // 1. Use dark algorithm
-        algorithm: theme.darkAlgorithm,
         token: {
-          // Seed Token
-          colorPrimary: '#2ecc71',
+          colorPrimary: '#2341CC',
         },
-        // 2. Combine dark algorithm and compact algorithm
-        // algorithm: [theme.darkAlgorithm, theme.compactAlgorithm],
       }}
     >
-      <AddWord />
+      {user && <AddWord />}
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/list" element={<List />} />
         <Route path="/quiz" element={<Quiz />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </ConfigProvider>
   );
