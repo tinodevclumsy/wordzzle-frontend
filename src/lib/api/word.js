@@ -12,7 +12,6 @@ export const getQuizList = () => {
     });
 };
 
-
 export const getWordList = (payload) => {
   return client
     .get('/word', {
@@ -28,8 +27,13 @@ export const getWordList = (payload) => {
 };
 
 export const updateWord = (req) => {
+  const { id, title, status, meaning } = req;
   return client
-    .post(`/word/update/${req.id}`, req.body)
+    .post(`/word/update/${id}`, {
+      title,
+      status,
+      meaning,
+    })
     .then((response) => {
       return response;
     })

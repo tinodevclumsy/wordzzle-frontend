@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { Input, Button, Space, Form } from 'antd';
 import PropTypes from 'prop-types';

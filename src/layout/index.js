@@ -6,7 +6,7 @@ import Header from '../components/common/Header';
 const Container = styled.div`
   width: 100%;
   min-height: 100vh;
-  padding: 0 15px;
+  padding: 115px 15px;
   display: flex;
   justify-content: center;
   align-items: center;

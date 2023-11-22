@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { Modal, Table } from 'antd';
 import PropTypes from 'prop-types';

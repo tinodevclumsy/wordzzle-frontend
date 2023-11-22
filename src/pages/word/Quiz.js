@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getQuizList } from '../../lib/api/word';
 import { Input, Button } from 'antd';
 import styled from 'styled-components';
@@ -93,7 +92,6 @@ const Quiz = () => {
   return (
     <Layout style={{ position: 'relative' }}>
       {list.length && (
-        // <Container>
         <>
           <Badge>{number + 1}</Badge>
           <Answer>
@@ -150,7 +148,6 @@ const Quiz = () => {
             onCancel={() => setModal(false)}
           />
         </>
-        // </Container>
       )}
     </Layout>
   );
