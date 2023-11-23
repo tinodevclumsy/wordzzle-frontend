@@ -15,8 +15,8 @@ const WordTable = () => {
   const { list, totalWords, totalPages, page, keyword } = useSelector(
     ({ word }) => ({
       list: word.list.words,
-      totalCount: word.list.totalWords,
-      totalPage: word.list.totalPages,
+      totalWords: word.list.totalWords,
+      totalPages: word.list.totalPages,
       page: word.options.page,
       keyword: word.options.keyword,
     }),

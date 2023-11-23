@@ -1,34 +1,24 @@
 import React from 'react';
-import { Modal } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
+import { Modal } from 'antd';
 import {
   updateModal,
   changeTitle,
   changeMeaning,
-  changeStatus,
   addMeaning,
   deleteMeaning,
-  updateWord,
+  addWord,
 } from '../../modules/word';
 import WordForm from './WordForm';
 
-const EditModal = () => {
+const AddModal = () => {
   const dispatch = useDispatch();
-  const TYPE = 'edit';
+  const TYPE = 'add';
 
   const { status, item } = useSelector(({ word }) => ({
-    status: word.options.edit.status,
-    item: word.options.edit.item,
+    status: word.options.add.status,
+    item: word.options.add.item,
   }));
-
-  const onCancel = () => {
-    dispatch(
-      updateModal({
-        modal: TYPE,
-        item: {},
-      }),
-    );
-  };
 
   const onTitleChange = (e) => {
     dispatch(
@@ -57,16 +47,19 @@ const EditModal = () => {
     dispatch(deleteMeaning({ index, type: TYPE }));
   };
 
-  const onStatusChange = () => {
-    dispatch(changeStatus());
+  const onCancel = () => {
+    dispatch(
+      updateModal({
+        modal: TYPE,
+        item: {},
+      }),
+    );
   };
 
   const onOk = () => {
     dispatch(
-      updateWord({
-        id: item._id,
+      addWord({
         title: item.title,
-        status: item.status,
         meaning: item.meaning,
       }),
     );
@@ -74,11 +67,11 @@ const EditModal = () => {
 
   return (
     <Modal
-      title="Edit a word"
+      title="Add a word"
       open={status}
-      centered
       onCancel={onCancel}
       onOk={onOk}
+      centered
     >
       <WordForm
         type={TYPE}
@@ -87,10 +80,9 @@ const EditModal = () => {
         onMeaningChange={onMeaningChange}
         onMeaningAdd={onMeaningAdd}
         onMeaningDelete={onMeaningDelete}
-        onStatusChange={onStatusChange}
       />
     </Modal>
   );
 };
 
-export default EditModal;
+export default AddModal;

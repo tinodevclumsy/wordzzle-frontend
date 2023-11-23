@@ -2,13 +2,14 @@ import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import { ConfigProvider } from 'antd';
-import AddWord from './components/word/AddWord';
 import List from './pages/word/List';
 import Quiz from './pages/word/Quiz';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import AddFAB from './containers/word/AddFAB';
+import AddModal from './containers/word/AddModal';
 
 function App() {
   const navigate = useNavigate();
@@ -28,7 +29,8 @@ function App() {
         },
       }}
     >
-      {user && <AddWord />}
+      <AddFAB />
+      <AddModal />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/list" element={<List />} />

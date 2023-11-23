@@ -15,6 +15,10 @@ const CHANGE_TITLE = 'word/CHANGE_TITLE';
 const ADD_MEANING = 'word/ADD_MEANING';
 const DELETE_MEANING = 'word/DELETE_MEANING';
 const CHANGE_MEANING = 'word/CHANGE_MEANING';
+const CHANGE_STATUS = 'word/CHANGE_STATUS';
+
+const [ADD_WORD, ADD_WORD_SUCCESS, ADD_WORD_FAILURE] =
+  createRequestActionTypes('word/ADD_WORD');
 
 const [DELETE_WORD, DELETE_WORD_SUCCESS, DELETE_WORD_FAILURE] =
   createRequestActionTypes('word/DELETE_WORD');
@@ -26,16 +30,27 @@ export const changePagination = createAction(CHANGE_PAGINATION, ({ page }) => ({
   page,
 }));
 
-export const changeTitle = createAction(CHANGE_TITLE, ({ value }) => value);
+export const changeTitle = createAction(CHANGE_TITLE, ({ value, type }) => ({
+  value,
+  type,
+}));
 
 export const changeMeaning = createAction(
   CHANGE_MEANING,
-  ({ index, value }) => ({ index, value }),
+  ({ index, value, type }) => ({ index, value, type }),
 );
 
-export const addMeaning = createAction(ADD_MEANING);
+export const changeStatus = createAction(CHANGE_STATUS);
 
-export const deleteMeaning = createAction(DELETE_MEANING, ({ index }) => index);
+export const addMeaning = createAction(ADD_MEANING, ({ type }) => type);
+
+export const deleteMeaning = createAction(
+  DELETE_MEANING,
+  ({ index, type }) => ({
+    index,
+    type,
+  }),
+);
 
 export const searchKeyword = createAction(SEARCH_KEYWORD, ({ keyword }) => ({
   keyword,
@@ -54,6 +69,11 @@ export const wordList = createAction(
   }),
 );
 
+export const addWord = createAction(ADD_WORD, ({ title, meaning }) => ({
+  title,
+  meaning,
+}));
+
 export const deleteWord = createAction(DELETE_WORD, ({ id }) => ({
   id,
 }));
@@ -71,10 +91,12 @@ export const updateWord = createAction(
 const wordListSaga = createRequestSaga(WORD_LIST, wordAPI.getWordList);
 const wordDeleteSaga = createRequestSaga(DELETE_WORD, wordAPI.deleteWord);
 const wordUpdateSaga = createRequestSaga(UPDATE_WORD, wordAPI.updateWord);
+const wordAddSaga = createRequestSaga(ADD_WORD, wordAPI.addWord);
 
 export function* wordSaga() {
   yield takeLatest(WORD_LIST, wordListSaga);
   yield takeLatest(DELETE_WORD, wordDeleteSaga);
+  yield takeLatest(ADD_WORD, wordAddSaga);
   yield takeLatest(UPDATE_WORD, wordUpdateSaga);
 }
 
@@ -92,6 +114,10 @@ const initialState = {
       status: false,
       item: {},
     },
+    add: {
+      status: false,
+      item: {},
+    },
   },
   error: null,
 };
@@ -106,13 +132,23 @@ const word = handleActions(
       ...state,
       error,
     }),
+    [ADD_WORD_SUCCESS]: (state, { payload: data }) =>
+      produce(state, (draft) => {
+        console.log(data);
+        draft.options.add.status = false;
+        draft.options.add.item = {};
+      }),
+    [ADD_WORD_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
+    }),
     [DELETE_WORD_SUCCESS]: (state) =>
       produce(state, (draft) => {
         const index = draft.list.words.findIndex(
           (ele) => ele._id === draft.options.delete.item._id,
         );
         if (index > -1) {
-          draft.list.words.splice(index);
+          draft.list.words.splice(index, 1);
           draft.options.delete.item = {};
         }
         draft.options.delete.status = false;
@@ -146,26 +182,33 @@ const word = handleActions(
       produce(state, (draft) => {
         draft.options.keyword = payload.keyword;
       }),
-    [UPDATE_MODAL]: (state, { payload: { modal, item } }) =>
+    [UPDATE_MODAL]: (
+      state,
+      { payload: { modal, item = { title: '', meaning: [], status: false } } },
+    ) =>
       produce(state, (draft) => {
         draft.options[modal].status = !state.options[modal].status;
         draft.options[modal].item = item;
       }),
-    [CHANGE_TITLE]: (state, { payload: value }) =>
+    [CHANGE_STATUS]: (state) =>
       produce(state, (draft) => {
-        draft.options.edit.item.title = value;
+        draft.options.edit.item.status = !state.options.edit.item.status;
       }),
-    [CHANGE_MEANING]: (state, { payload: { index, value } }) =>
+    [CHANGE_TITLE]: (state, { payload: { type, value } }) =>
       produce(state, (draft) => {
-        draft.options.edit.item.meaning[index].value = value;
+        draft.options[type].item.title = value;
       }),
-    [ADD_MEANING]: (state) =>
+    [CHANGE_MEANING]: (state, { payload: { index, value, type } }) =>
       produce(state, (draft) => {
-        draft.options.edit.item.meaning.push({ value: '' });
+        draft.options[type].item.meaning[index].value = value;
       }),
-    [DELETE_MEANING]: (state, { payload: index }) =>
+    [ADD_MEANING]: (state, { payload: type }) =>
       produce(state, (draft) => {
-        draft.options.edit.item.meaning.splice(index);
+        draft.options[type].item.meaning.push({ value: '' });
+      }),
+    [DELETE_MEANING]: (state, { payload: { type, index } }) =>
+      produce(state, (draft) => {
+        draft.options[type].item.meaning.splice(index, 1);
       }),
   },
   initialState,
