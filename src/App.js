@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import AddFAB from './containers/word/AddFAB';
 import AddModal from './containers/word/AddModal';
+import Notification from './components/common/Notification';
 
 function App() {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ function App() {
     >
       <AddFAB />
       <AddModal />
+      <Notification />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/list" element={<List />} />

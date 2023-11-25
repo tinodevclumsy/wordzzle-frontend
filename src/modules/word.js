@@ -157,14 +157,12 @@ const word = handleActions(
       ...state,
       error,
     }),
-    [UPDATE_WORD_SUCCESS]: (state, { payload }) =>
+    [UPDATE_WORD_SUCCESS]: (state, { payload: { word } }) =>
       produce(state, (draft) => {
-        const index = draft.list.words.findIndex(
-          (ele) => ele._id === payload._id,
-        );
+        const index = draft.list.words.findIndex((ele) => ele._id === word._id);
 
         if (index > -1) {
-          draft.list.words[index] = payload;
+          draft.list.words[index] = word;
           draft.options.edit.item = {};
         }
 
