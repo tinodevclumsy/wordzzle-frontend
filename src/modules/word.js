@@ -132,9 +132,9 @@ const word = handleActions(
       ...state,
       error,
     }),
+    // eslint-disable-next-line no-unused-vars
     [ADD_WORD_SUCCESS]: (state, { payload: data }) =>
       produce(state, (draft) => {
-        console.log(data);
         draft.options.add.status = false;
         draft.options.add.item = {};
       }),
