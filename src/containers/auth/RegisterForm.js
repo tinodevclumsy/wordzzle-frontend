@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, register } from '../../modules/auth';
-import { check } from '../../modules/user';
+// import { check } from '../../modules/user';
 
 const RegisterForm = () => {
   const dispatch = useDispatch();
@@ -45,9 +45,9 @@ const RegisterForm = () => {
     if (authError) {
       // handle error
     }
-    if (auth) {
-      dispatch(check());
-    }
+    // if (auth) {
+    //   dispatch(check());
+    // }
   }, [auth, authError]);
 
   useEffect(() => {

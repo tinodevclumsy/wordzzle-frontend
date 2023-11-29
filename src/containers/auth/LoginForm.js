@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, login } from '../../modules/auth';
-import { check } from '../../modules/user';
+// import { check } from '../../modules/user';
 
 import AuthForm from '../../components/auth/AuthForm';
 
@@ -41,9 +41,9 @@ const LoginForm = () => {
     if (authError) {
       // handle error
     }
-    if (auth) {
-      dispatch(check());
-    }
+    // if (auth) {
+    //   dispatch(check());
+    // }
   }, [auth, authError]);
 
   useEffect(() => {
