@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Modal } from 'antd';
+import { Modal, Button } from 'antd';
 import {
   updateModal,
   changeTitle,
@@ -69,9 +70,20 @@ const AddModal = () => {
     <Modal
       title="Add a word"
       open={status}
-      onCancel={onCancel}
-      onOk={onOk}
       centered
+      footer={[
+        <Button key="cancel" onClick={onCancel}>
+          Cancel
+        </Button>,
+        <Button
+          form={`${TYPE}Form`}
+          key="submit"
+          htmlType="submit"
+          type="primary"
+        >
+          Submit
+        </Button>,
+      ]}
     >
       <WordForm
         type={TYPE}
@@ -80,6 +92,7 @@ const AddModal = () => {
         onMeaningChange={onMeaningChange}
         onMeaningAdd={onMeaningAdd}
         onMeaningDelete={onMeaningDelete}
+        onOk={onOk}
       />
     </Modal>
   );

@@ -206,7 +206,9 @@ const word = handleActions(
       }),
     [DELETE_MEANING]: (state, { payload: { type, index } }) =>
       produce(state, (draft) => {
-        draft.options[type].item.meaning.splice(index, 1);
+        if (draft.options[type].item.meaning.length > 1) {
+          draft.options[type].item.meaning.splice(index, 1);
+        }
       }),
   },
   initialState,

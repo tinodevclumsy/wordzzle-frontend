@@ -9,7 +9,12 @@ const AddFAB = () => {
   const user = useSelector(({ user }) => user.user);
 
   const onClick = () => {
-    dispatch(updateModal({ modal: 'add' }));
+    dispatch(
+      updateModal({
+        modal: 'add',
+        item: { title: '', meaning: [{ value: null }] },
+      }),
+    );
   };
   return (
     <>

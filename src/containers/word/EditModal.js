@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal } from 'antd';
+import { Modal, Button } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   updateModal,
@@ -77,8 +77,19 @@ const EditModal = () => {
       title="Edit a word"
       open={status}
       centered
-      onCancel={onCancel}
-      onOk={onOk}
+      footer={[
+        <Button key="cancel" onClick={onCancel}>
+          Cancel
+        </Button>,
+        <Button
+          form={`${TYPE}Form`}
+          key="submit"
+          htmlType="submit"
+          type="primary"
+        >
+          Submit
+        </Button>,
+      ]}
     >
       <WordForm
         type={TYPE}
@@ -88,6 +99,7 @@ const EditModal = () => {
         onMeaningAdd={onMeaningAdd}
         onMeaningDelete={onMeaningDelete}
         onStatusChange={onStatusChange}
+        onOk={onOk}
       />
     </Modal>
   );
