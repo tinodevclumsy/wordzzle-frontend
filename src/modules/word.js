@@ -132,11 +132,17 @@ const word = handleActions(
       ...state,
       error,
     }),
-    // eslint-disable-next-line no-unused-vars
     [ADD_WORD_SUCCESS]: (state, { payload: data }) =>
       produce(state, (draft) => {
         draft.options.add.status = false;
         draft.options.add.item = {};
+        if(Object.keys(draft.list).length) {
+          if(draft.options.page === 1) {
+            draft.list.words.unshift(data.word)
+          }
+          draft.list.totalWords++
+          draft.list.totalPages = Math.ceil(draft.list.totalWords / 10)
+        }
       }),
     [ADD_WORD_FAILURE]: (state, { payload: error }) => ({
       ...state,
@@ -150,6 +156,8 @@ const word = handleActions(
         if (index > -1) {
           draft.list.words.splice(index, 1);
           draft.options.delete.item = {};
+          draft.list.totalWords--
+          draft.list.totalPages = Math.ceil(draft.list.totalWords / 10)
         }
         draft.options.delete.status = false;
       }),

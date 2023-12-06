@@ -20,7 +20,7 @@ const WordForm = ({
     item.meaning.forEach((ele, index) => {
       form.setFieldValue(`meaning-${index}`, ele.value);
     });
-  }, []);
+  }, [item]);
 
   return (
     <Form

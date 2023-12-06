@@ -13,7 +13,7 @@ const TableHeader = styled.div`
 const TableWord = ({
   list,
   totalWords,
-  totalPages,
+  // totalPages,
   onSearch,
   onPageChange,
   onEditClick,
@@ -79,7 +79,7 @@ const TableWord = ({
         dataSource={list}
         rowKey={(record) => record._id}
         pagination={{
-          total: totalPages,
+          total: totalWords,
           onChange: onPageChange,
         }}
       />
